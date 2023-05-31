@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RectanguloActivity"
+    android:orientation="vertical"
+    android:background="@drawable/bg1">
+
+    <TextView
+        android:id="@+id/tituloCuadrado"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Rectangulo"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        />
+
+    <EditText
+        android:id="@+id/etBase"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="10dp"
+        android:hint="Digite base"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="25dp"
+        android:textColorHint="@color/black"
+        android:textStyle="italic"
+        />
+
+    <EditText
+        android:id="@+id/etAltura"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="10dp"
+        android:hint="Digite altura"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="25dp"
+        android:textColorHint="@color/black"
+        android:textStyle="italic"
+        />
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tvArea"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Area"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvresultArea"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="0"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:textColor="@color/teal_700"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tvPerimetro"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Perimetro"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvresultPerimetro"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="0"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:textColor="@color/teal_700"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/btnCalcularCuadrado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="Calcular"
+            android:text="Calcular"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/btnLimpiarCuadrado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Limpiar"
+            android:layout_margin="5dp"
+            android:onClick="Limpiar"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Regresar"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:onClick="Regresar"/>
+
+</LinearLayout>
