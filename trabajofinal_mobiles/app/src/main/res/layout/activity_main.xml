@@ -11,7 +11,7 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="BIENVENIDO"
         android:textSize="25dp"
         android:layout_marginTop="10dp"
         android:gravity="center"/>
@@ -30,7 +30,8 @@
             android:ems="10"
             android:inputType="text"
             android:hint="Nombre de Usuario"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:gravity="center"/>
 
         <EditText
             android:id="@+id/etclave"
@@ -39,7 +40,8 @@
             android:ems="10"
             android:inputType="textPassword"
             android:hint="Contraseña"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:gravity="center"/>
     </LinearLayout>
 
     <LinearLayout

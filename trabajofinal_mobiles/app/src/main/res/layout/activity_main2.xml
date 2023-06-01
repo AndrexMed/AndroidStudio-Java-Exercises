@@ -12,5 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Viaje Cartagena"
-        android:textSize="50dp"/>
+        android:textSize="50dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CARTAGENA"
+            android:onClick="cartagena"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="SERVICIOS PUBLICOS"
+            android:onClick="servicios"/>
+    </LinearLayout>
 </LinearLayout>
