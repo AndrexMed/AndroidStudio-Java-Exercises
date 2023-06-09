@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Trabajofinal_mobiles" parent="Base.Theme.Trabajofinal_mobiles" />
+
+    <style name="MiEstilo">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>
