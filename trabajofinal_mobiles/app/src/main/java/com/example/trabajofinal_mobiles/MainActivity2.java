@@ -24,5 +24,10 @@ public class MainActivity2 extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void Salir(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 
 }

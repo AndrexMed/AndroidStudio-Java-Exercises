@@ -53,10 +53,16 @@ public class MainActivity3 extends AppCompatActivity {
             if (checkIva.isChecked()){
                 final int IVA = 19;
                 cartagena.setIva(IVA);
+                tvIva.setText("19%");
+            }else{
+                tvIva.setText("");
             }
             if( checkDescuento.isChecked()){
                 final int DESCUENTO = 10;
                 cartagena.setDescuento(DESCUENTO);
+                tvDescuento.setText("10%");
+            }else{
+                tvDescuento.setText("");
             }
 
             float TotalBruto = cartagena.totalBruto();

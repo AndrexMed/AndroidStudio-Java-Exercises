@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Viaje Cartagena"
-        android:textSize="50dp"
+        android:textSize="40dp"
         android:gravity="center"
         android:layout_marginTop="10dp"/>
 
@@ -27,7 +27,7 @@
         <EditText
             android:id="@+id/etCantidad"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:ems="10"
             android:inputType="number"
             android:hint="Cantidad de Personas"
@@ -36,7 +36,7 @@
         <EditText
             android:id="@+id/etPrecioPersona"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="48dp"
             android:ems="10"
             android:inputType="numberDecimal"
             android:hint="Valor Persona"
@@ -71,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Total IVA" />
+                android:hint="Total IVA"
+                android:textSize="20dp"/>
     </LinearLayout>
 
         <LinearLayout
@@ -94,7 +95,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Descuento" />
+                android:hint="Descuento"
+                android:textSize="20dp"/>
         </LinearLayout>
 
 

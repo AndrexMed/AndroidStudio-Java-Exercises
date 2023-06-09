@@ -11,9 +11,11 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Viaje Cartagena"
+        android:text="Our Services"
         android:textSize="50dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:textStyle="italic|bold"/>
 
     <LinearLayout
         android:layout_width="370dp"
@@ -37,4 +39,13 @@
             android:text="SERVICIOS PUBLICOS"
             android:onClick="servicios"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Salir"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:onClick="Salir"/>
 </LinearLayout>

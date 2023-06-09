@@ -10,6 +10,7 @@
     <style name="MiEstilo">
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
 
 </resources>
