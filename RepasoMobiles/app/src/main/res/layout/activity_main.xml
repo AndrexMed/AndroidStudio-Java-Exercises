@@ -21,7 +21,8 @@
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/editTextText"
@@ -35,7 +36,7 @@
             android:autofillHints="username"/>
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/valorPrestamo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
@@ -49,15 +50,90 @@
 
     <LinearLayout
         android:layout_width="400dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center">
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/spinnerOne"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp" />
+
+        <Spinner
+            android:id="@+id/spinnerTwo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/totalDeudaTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Total Deuda:"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/totalDeuda"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/totalCuotaTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Total Cuota:"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/totalCuota"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calcular"
+            android:onClick="Calcular"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Limpiar" />
     </LinearLayout>
 </LinearLayout>
