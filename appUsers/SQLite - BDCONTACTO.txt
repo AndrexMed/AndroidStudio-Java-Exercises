@@ -1,0 +1,505 @@
+-------------
+Activity_main.xml
+-------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cesde.vzg.appsqlite.MainActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etnombres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombres"
+        android:inputType="text"
+         />
+    <EditText
+        android:id="@+id/ettelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Teléfono"
+        android:inputType="text"
+        />
+    <Button
+        android:id="@+id/btnguardar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        />
+    <Button
+        android:id="@+id/btnlistar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Listar"
+
+        />
+
+
+</LinearLayout>
+------------
+MainActivity.java
+------------
+
+public class MainActivity extends AppCompatActivity {
+    EditText etnombres,ettelefono;
+    Button btnguardar,btnlistar;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etnombres=findViewById(R.id.etnombres);
+        ettelefono=findViewById(R.id.ettelefono);
+        btnguardar=findViewById(R.id.btnguardar);
+        btnlistar=findViewById(R.id.btnlistar);
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardar(etnombres.getText().toString(),ettelefono.getText().toString());
+            }
+        });
+        btnlistar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Listado.class));
+            }
+        });
+    }
+
+    private void guardar (String Nombres, String Telefono){
+        BaseDatos helper = new BaseDatos(this,"BDCONTACTO",null,1);
+        SQLiteDatabase db= helper.getWritableDatabase();
+        try
+        {
+            //Contenedor de datos del contacto
+            ContentValues c = new ContentValues();
+            c.put("Nombres",Nombres);
+            c.put("Telefono",Telefono);
+            db.insert("CONTACTO",null,c);
+            db.close();
+            Toast.makeText(this,"Contacto agregado correctamente...",Toast.LENGTH_SHORT).show();
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this,"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
+    }
+}
+-----------------
+Activity_listado.xml
+-----------------
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cesde.vzg.appsqlite.Listado">
+
+    <ListView
+        android:id="@+id/lvcontacto"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+</android.support.constraint.ConstraintLayout>
+----------------------
+Listado.java
+----------------------
+public class Listado extends AppCompatActivity {
+    ListView listView;
+    ArrayList<String> listado;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_listado);
+        listView = findViewById(R.id.lvcontacto);
+        CargarListado();
+
+    }
+    private void CargarListado()
+    {
+        listado=ListaContactos();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,listado);
+        listView.setAdapter(adapter);
+
+    }
+    private ArrayList<String> ListaContactos()
+    {
+        ArrayList<String> datos = new ArrayList<String>();
+        BaseDatos helper = new BaseDatos(this,"BDCONTACTO",null,1);
+        SQLiteDatabase db= helper.getReadableDatabase();
+        String sql = "Select Id,Nombres,Telefono From Contacto";
+        Cursor c = db.rawQuery(sql,null);
+        if (c.moveToFirst())
+        {
+            do{
+                String linea = c.getInt(0)+" "+c.getString(1)+" "+c.getString(2);
+                datos.add(linea);
+            }while (c.moveToNext());
+        }
+        db.close();
+        return datos;
+
+    }
+}
+---------------------
+BaseDatos.java
+---------------------
+public class BaseDatos extends SQLiteOpenHelper{
+    //Se crea la variable que cree la tabla
+    String tabla = "CREATE TABLE CONTACTO (ID INTEGER PRIMARY KEY AUTOINCREMENT, NOMBRES TEXT, TELEFONO TEXT)";
+    public BaseDatos(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(tabla);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE CONTACTO");
+        db.execSQL(tabla);
+
+    }
+}
+----------------- CRUD COMPLETO --------
+
+public class MainActivity extends AppCompatActivity {
+    EditText etnombres,ettelefono;
+    Button btnguardar,btnlistar,btnbuscar,btnactualizar,btneliminar;
+    //
+    //ArrayList<String> datosb = new ArrayList<String>();
+    BaseDatos odb = new BaseDatos(this,"BDCONTACTO",null,1);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        etnombres=findViewById(R.id.etnombres);
+        ettelefono=findViewById(R.id.ettelefono);
+        btnguardar=findViewById(R.id.btnguardar);
+        btnbuscar=findViewById(R.id.btnbuscar);
+        btnactualizar=findViewById(R.id.btnactualizar);
+        btneliminar=findViewById(R.id.btneliminar);
+        btnlistar=findViewById(R.id.btnlistar);
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                guardar(etnombres.getText().toString(),ettelefono.getText().toString());
+            }
+        });
+        btnlistar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),Main2Activity.class));
+            }
+        });
+        btnbuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buscar(etnombres.getText().toString());
+            }
+        });
+        btneliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilder.setMessage("Eliminación de Contactos");
+                alertDialogBuilder.setPositiveButton("Sí",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                SQLiteDatabase obde = odb.getWritableDatabase();
+                                obde.execSQL("DELETE FROM Contacto WHERE Nombres = '"+etnombres.getText().toString()+"'");
+                                Toast.makeText(getApplicationContext(),"Contacto Eliminado correctamente...",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                /*SQLiteDatabase obde = odb.getWritableDatabase();
+                obde.execSQL("DELETE FROM Contacto WHERE Nombres = '"+etnombres.getText().toString()+"'");
+                Toast.makeText(getApplicationContext(),"Contacto Eliminado correctamente...",Toast.LENGTH_SHORT).show();
+                */
+
+
+            }
+        });
+        btnactualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase obde = odb.getWritableDatabase();
+                obde.execSQL("UPDATE Contacto SET TELEFONO = '"+ettelefono.getText().toString()+"' WHERE Nombres = '"+etnombres.getText().toString()+"'");
+                Toast.makeText(getApplicationContext(),"Contacto Actualizado correctamente...",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void buscar(String toString) {
+        ArrayList<String> datosb = new ArrayList<String>();
+        //BaseDatos helperb = new BaseDatos(this,"BDCONTACTO",null,1);
+        SQLiteDatabase db = odb.getReadableDatabase();
+        String sql = "Select Nombres,Telefono From Contacto Where Nombres = '"+etnombres.getText().toString()+"'";
+        Cursor ccont = db.rawQuery(sql,null);
+        if (ccont.moveToFirst())
+        {
+            ettelefono.setText(ccont.getString(1));
+        }
+        else
+        {
+            Toast.makeText(this,"Contacto NO Existe!",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void guardar(String Nombres, String Telefono) {
+        //Instanciar el objeto que permite trabajar con SQLite
+        //BaseDatos odb = new BaseDatos(this,"BDCONTACTO",null,1);
+        SQLiteDatabase db = odb.getWritableDatabase();
+        try
+        {
+            //Contenedor de datos del contacto
+            ContentValues c = new ContentValues();
+            c.put("Nombres",Nombres);
+            c.put("Telefono",Telefono);
+            db.insert("CONTACTO",null,c);
+            db.close();
+            Toast.makeText(this,"Contacto agregado correctamente...",Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this,"Error: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+}
+---------------- ListView Personalizado completo ----------
+
+listacontactos.xml (Layout Resource File)
+------------------
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <ImageView
+        android:id="@+id/imgcontacto"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_contact_phone_black_24dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvnombre"
+        android:layout_marginLeft="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+    <TextView
+        android:id="@+id/tvtelefono"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ImageButton
+                android:id="@+id/Imbeditar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:layout_marginLeft="20dp"
+                />
+            <ImageButton
+                android:id="@+id/Imbeliminar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete_black_24dp"
+                />
+        </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+GestionarAdapter.java (Class)
+-----------------------------
+package com.example.appcontactossab;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class GestionarAdapter extends BaseAdapter {
+    //String[] resultado;
+    ArrayList<String> resultado;
+    ArrayList<String> resultadotel;
+    Context contexto;
+
+    private static LayoutInflater inflater= null;
+    public GestionarAdapter (Main2Activity mainActivity, ArrayList<String> progNombreLista, ArrayList<String> progTelefonoLista) {
+        resultado = progNombreLista;
+        resultadotel = progTelefonoLista;
+        contexto = mainActivity;
+        inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+    @Override
+    public int getCount() {
+        //return resultado.length;
+        return resultado.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return i;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+    public class Holder
+    {
+        TextView tv;
+        TextView tvtel;
+        //ImageView img;
+    }
+    @Override
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        // TODO Auto-generated method stub
+        Holder holder=new Holder();
+        View fila;
+        fila = inflater.inflate(R.layout.listacontactos, null);
+        holder.tv=(TextView) fila.findViewById(R.id.tvnombre);
+        holder.tvtel=(TextView) fila.findViewById(R.id.tvtelefono);
+        //holder.img=(ImageView) fila.findViewById(R.id.imgFrutas);
+        holder.tv.setText(resultado.get(i));
+        holder.tvtel.setText(resultadotel.get(i));
+        //holder.img.setImageResource(imgId[posicion]);
+        fila.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Toast.makeText(contexto, "Seleccionaste "+ resultado.get(i),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+        return fila;
+        //return null;
+    }
+}
+
+Main2Activity.java (el mismo listado.java)
+------------------
+package com.example.appcontactossab;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
+public class Main2Activity extends AppCompatActivity {
+    ListView contactos;
+    ArrayList<String> listado;
+    ArrayList<String> listadotel;
+    Context context;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        contactos = findViewById(R.id.lvcontacto);
+        CargarListado();
+
+
+    }
+
+    private void CargarListado() {
+        listado = ListaContactos();
+        listadotel = ListaContactostel();
+        //ArrayAdapter<String> adpcontactos = new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,listado);
+        //contactos.setAdapter(adpcontactos);
+        contactos.setAdapter(new GestionarAdapter(this, listado,listadotel));
+    }
+
+    private ArrayList<String> ListaContactostel() {
+        ArrayList<String> datos = new ArrayList<String>();
+        BaseDatos odb = new BaseDatos(this,"BDCONTACTO",null,1);
+        SQLiteDatabase db = odb.getReadableDatabase();
+        String sql = "Select Id,Nombres,Telefono From Contacto";
+        Cursor ccont = db.rawQuery(sql,null);
+        if (ccont.moveToFirst())
+        {
+            do{
+                //String linea = ccont.getInt(0)+" "+ccont.getString(1)+" "+ccont.getString(2);
+                //String linea = ccont.getString(1)+" "+ccont.getString(2);
+                String linea = ccont.getString(2);
+                datos.add(linea);
+            }while (ccont.moveToNext());
+        }
+        db.close();
+        return datos;
+    }
+
+    private ArrayList<String> ListaContactos() {
+        ArrayList<String> datos = new ArrayList<String>();
+        BaseDatos odb = new BaseDatos(this,"BDCONTACTO",null,1);
+        SQLiteDatabase db = odb.getReadableDatabase();
+        String sql = "Select Id,Nombres,Telefono From Contacto";
+        Cursor ccont = db.rawQuery(sql,null);
+        if (ccont.moveToFirst())
+        {
+            do{
+                //String linea = ccont.getInt(0)+" "+ccont.getString(1)+" "+ccont.getString(2);
+                //String linea = ccont.getString(1)+" "+ccont.getString(2);
+                String linea = ccont.getString(1);
+                datos.add(linea);
+            }while (ccont.moveToNext());
+        }
+        db.close();
+        return datos;
+    }
+}
+
+

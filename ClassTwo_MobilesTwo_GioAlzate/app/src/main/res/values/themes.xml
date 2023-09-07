@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ClassTwo_MobilesTwo_GioAlzate" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.ClassTwo_MobilesTwo_GioAlzate" parent="Base.Theme.ClassTwo_MobilesTwo_GioAlzate" />
+</resources>

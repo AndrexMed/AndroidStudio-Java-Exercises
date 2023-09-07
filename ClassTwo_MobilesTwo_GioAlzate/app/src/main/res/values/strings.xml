@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ClassTwo_MobilesTwo_GioAlzate</string>
+    <string name="titulo">Giovanni Alzate</string>
+    <string name="usuario">Ingrese Usuario</string>
+    <string name="nombre">Ingrese Nombre</string>
+    <string name="correo">Ingrese Email</string>
+    <string name="contrasena">Ingrese Contraseña</string>
+    <string name="rol">Ingrese ROL</string>
+
+</resources>
