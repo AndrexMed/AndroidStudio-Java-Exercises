@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         btnBooks = findViewById(R.id.btnBooks);
         btnRent = findViewById(R.id.btnRent);
 
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
