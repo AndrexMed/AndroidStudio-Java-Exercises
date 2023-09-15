@@ -12,36 +12,57 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/title"
         android:textSize="33sp"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold|italic"/>
+        android:textStyle="bold|italic" />
 
     <LinearLayout
         android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:orientation="horizontal">
 
 
         <Button
             android:id="@+id/btnRegister"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Register" />
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:drawableRight="@drawable/baseline_login_24"
+            android:text="Register"
+            android:layout_marginLeft="10dp"/>
 
         <Button
             android:id="@+id/btnBooks"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Add book" />
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="80dp"
+            android:text="Add book"
+            android:drawableRight="@drawable/baseline_menu_book_24"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="74dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnRent"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Rent book" />
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:text="Rent book"
+            android:drawableRight="@drawable/baseline_add_shopping_cart_24"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/miImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="470dp"
+        android:src="@drawable/pexels"/>
 
     </LinearLayout>
-</LinearLayout>

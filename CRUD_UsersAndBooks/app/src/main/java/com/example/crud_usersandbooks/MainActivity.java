@@ -31,21 +31,31 @@ public class MainActivity extends AppCompatActivity {
         btnBooks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RegisterBook();
             }
         });
 
         btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Rent();
             }
         });
     }//Fin OnCreate
 
+    private void Rent() {
+        Intent rent = new Intent(this, RentBook.class);
+        startActivity(rent);
+    }
+
     public void Register(){
         Intent register = new Intent(this, Register.class);
         startActivity(register);
+    }
+
+    public void RegisterBook(){
+        Intent newBook = new Intent(this, RegisterBook.class);
+        startActivity(newBook);
     }
 
 }

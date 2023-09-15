@@ -13,6 +13,12 @@
         android:theme="@style/Theme.CRUD_UsersAndBooks"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterBook"
+            android:exported="false" />
+        <activity
+            android:name=".RentBook"
+            android:exported="false" />
+        <activity
             android:name=".Register"
             android:exported="false" />
         <activity

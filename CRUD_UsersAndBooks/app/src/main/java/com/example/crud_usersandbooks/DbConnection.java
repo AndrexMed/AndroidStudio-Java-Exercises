@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 public class DbConnection extends SQLiteOpenHelper {
 
     String tblUsers = "CREATE TABLE Users(idUser text, nameUser text, emailUser text, password text, status text)";
-    String tblBooks = "CREATE TABLE Books(idBook text, nameBook text, coste INTEGER, available text)";
+    String tblBooks = "CREATE TABLE Books(idBook text, nameBook text, coste text, available text)";
     String tblRents = "CREATE TABLE Rents(idRent text, idUser text, idBook text, date text)";
 
     public DbConnection(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
