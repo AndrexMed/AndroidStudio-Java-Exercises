@@ -288,7 +288,7 @@ public class Register extends AppCompatActivity {
         SQLiteDatabase dbw = dbase.getWritableDatabase();
 
         if(userFounded.equals(userToUpdate)){
-            String query = "UPDATE Books SET nameUser = '"+userName+"', emailUser = '"+email+"',"
+            String query = "UPDATE Users SET nameUser = '"+userName+"', emailUser = '"+email+"',"
                             + "password = '"+password+"', status = '"+userStatus+"'";
 
             dbw.execSQL(query);

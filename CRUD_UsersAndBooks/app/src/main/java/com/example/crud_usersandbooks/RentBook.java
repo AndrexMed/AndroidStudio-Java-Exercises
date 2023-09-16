@@ -174,7 +174,7 @@ public class RentBook extends AppCompatActivity {
                     //SaveRent(idUser, idBook);
                 tvMessage.setTextColor(Color.GREEN);
                 tvMessage.setText("It's Ok");
-
+                btnSave.setEnabled(true);
                 PrintDataInTable(idBook, idUser);
             }else{
                 if (!userValid){
