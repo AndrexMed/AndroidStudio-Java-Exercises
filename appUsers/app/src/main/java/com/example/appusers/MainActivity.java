@@ -1,21 +1,32 @@
 package com.example.appusers;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
     // Instanciar ids de xml
-    EditText etusername,etfullname,etemail, etpassword, etrole;
+    Spinner spRole;
+    String[] spRoles = {"Seleccione un rol", "Admin", "Usuario"};
+
+    EditText etusername,etfullname,etemail, etpassword;
     ImageButton btnsave, btnsearch, btnlist, btnUpdate, btnDelete, btnClear;
     TextView tvmessage;
     // Instanciar la clase de la base de datos para actualizar la info del usuario (CRUD)
@@ -33,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         etfullname = findViewById(R.id.etfullname);
         etemail = findViewById(R.id.etemail);
         etpassword = findViewById(R.id.etpassword);
-        etrole = findViewById(R.id.etrole);
+        spRole = findViewById(R.id.spRole);
         tvmessage = findViewById(R.id.tvmessage);
         btnsave = findViewById(R.id.btnsave);
         btnsearch = findViewById(R.id.btnsearch);
@@ -41,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         btnUpdate = findViewById(R.id.btnUpdate);
         btnDelete = findViewById(R.id.btnDelete);
         btnClear = findViewById(R.id.btnClear);
+
+        spRole.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_checked, spRoles));
+
         // Eventos
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,10 +63,25 @@ public class MainActivity extends AppCompatActivity {
                 String fullname = etfullname.getText().toString();
                 String email = etemail.getText().toString();
                 String password = etpassword.getText().toString();
-                String role = etrole.getText().toString();
+                String role = spRole.getSelectedItem().toString();
                 if (!username.isEmpty() && !fullname.isEmpty()
                         && !email.isEmpty() && !password.isEmpty() && !role.isEmpty()){
-                    saveUser(username, fullname, email, password, role);
+
+                    Pattern patEmail = Patterns.EMAIL_ADDRESS;
+
+                    if (patEmail.matcher(email).matches()){
+
+                        if (!role.equals("Seleccione un rol")){
+                            saveUser(username, fullname, email, password, role);
+                        }else{
+                            tvmessage.setTextColor(Color.RED);
+                            tvmessage.setText("Seleccione un rol valido!");
+                        }
+                    }else{
+                        etemail.setError("Email invalido");
+                    }
+
+                    //saveUser(username, fullname, email, password, role);
                 }
                 else{
                     tvmessage.setTextColor(Color.RED);
@@ -81,19 +110,19 @@ public class MainActivity extends AppCompatActivity {
                 String fullname = etfullname.getText().toString();
                 String email = etemail.getText().toString();
                 String password = etpassword.getText().toString();
-                String role = etrole.getText().toString();
+                String role = spRole.getSelectedItem().toString();
 
                 update(userToUpdate, fullname, email, password, role);
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        /*btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String userNameToDelete = etusername.getText().toString();
                 delete(userNameToDelete);
             }
-        });
+        });*/
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,24 +131,121 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilder.setMessage("Eliminación de Contactos");
+                alertDialogBuilder.setPositiveButton("Sí",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                /*SQLiteDatabase obde = dbase.getWritableDatabase();
+                                obde.execSQL("DELETE FROM user WHERE username = '"+etusername.getText().toString()+"'");
+                                Toast.makeText(getApplicationContext(),"Contacto Eliminado correctamente...",Toast.LENGTH_SHORT).show();*/
+
+                                String userNameToDelete = etusername.getText().toString();
+                                SQLiteDatabase db = dbase.getReadableDatabase();
+
+                                String query= "SELECT role FROM user WHERE username='"+userNameToDelete+"'";
+
+                                Cursor cUser = db.rawQuery(query,null);
+
+                                if(cUser.moveToFirst()){
+                                    if (cUser.moveToFirst()){//lo encontro
+                                        if(!cUser.getString(0).equals("Admin")){
+                                            db.execSQL("DELETE FROM user WHERE username='" + userNameToDelete + "'");
+
+                                            tvmessage.setTextColor(Color.GREEN);
+                                            tvmessage.setText("Usuario"+userNameToDelete+" Eliminado correctamente...");
+
+                                            clearData();
+                                        }else{
+                                            tvmessage.setTextColor(Color.RED);
+                                            tvmessage.setText("No se puede eliminar un usuario administrador!");
+                                        }
+                                    }
+                                    else{
+                                        tvmessage.setTextColor(Color.RED);
+                                        tvmessage.setText("nombre de usuario No existe. Intentelo con otro...");
+                                    }
+                                }
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                Toast.makeText(MainActivity.this, "Operacion cancelada", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                /*SQLiteDatabase obde = odb.getWritableDatabase();
+                obde.execSQL("DELETE FROM Contacto WHERE Nombres = '"+etnombres.getText().toString()+"'");
+                Toast.makeText(getApplicationContext(),"Contacto Eliminado correctamente...",Toast.LENGTH_SHORT).show();
+                */
+
+
+            }
+        });
+
+        btnlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = "Lista de Usuarios";
+                Intent listUsers = new Intent(getApplicationContext(), UserList.class);
+                listUsers.putExtra("mtitle", title);
+                startActivity(listUsers);
+
+                //startActivity(new Intent(getApplicationContext(), UserList.class));
+            }
+        });
+
     }//Fin OnCreate
 
-    private void clearData() {
-        etusername.setText("");
-        etfullname.setText("");
-        etemail.setText("");
-        etpassword.setText("");
-        etrole.setText("");
+    private void userList() {
+        Intent userList = new Intent(this, UserList.class);
+        startActivity(userList);
     }
 
+    private void clearData(){
+        etfullname.setText("");
+        etusername.setText("");
+        etemail.setText("");
+        etpassword.setText("");
+
+        //spRole.(""); Pendiente
+    }
     private void delete(String userNameToDelete) {
-        SQLiteDatabase db = dbase.getWritableDatabase();
-        String query = "DELETE FROM user WHERE username = '"+userNameToDelete+"'";
+        SQLiteDatabase db = dbase.getReadableDatabase();
+
+        String query= "SELECT role FROM user WHERE username='"+userNameToDelete+"'";
 
         Cursor cUser = db.rawQuery(query,null);
 
         if(cUser.moveToFirst()){
+            if (cUser.moveToFirst()){//lo encontro
+                if(!cUser.getString(0).equals("Admin")){
+                    db.execSQL("DELETE FROM user WHERE username='" + userNameToDelete + "'");
 
+                    tvmessage.setTextColor(Color.GREEN);
+                    tvmessage.setText("Usuario"+userNameToDelete+" Eliminado correctamente...");
+
+                    clearData();
+                }else{
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("No se puede eliminar un usuario administrador!");
+                }
+            }
+            else{
+                tvmessage.setTextColor(Color.RED);
+                tvmessage.setText("nombre de usuario No existe. Intentelo con otro...");
+            }
         }
     }
 
@@ -139,22 +265,22 @@ public class MainActivity extends AppCompatActivity {
             String query = "SELECT username FROM user WHERE username = '"+updateUsername+"'";
 
             //Generar tabla cursor con los datos que retorna la istancia. select en la variable query
-            Cursor cUser = db.rawQuery(query,null);
+            Cursor cUser = db.rawQuery(query, null);
 
             //Verificar si la tabla cursor tiene al menos un registro
             if(!cUser.moveToFirst()){ //No lo Encontro
-                String query1 = "UPDATE user set username = '"+updateUsername+"', fullname = '"+fullname+"', password = '"+password+"', role = '"+role+"' WHERE username = '"+userNameFounded+"'";
+                String query1 = "UPDATE user SET username = '"+updateUsername+"', fullname = '"+fullname+"', password = '"+password+"', role = '"+role+"' WHERE username = '"+userNameFounded+"'";
 
-                dbw.execSQL(query1, null);
+                dbw.execSQL(query1);
                 tvmessage.setTextColor(Color.GREEN);
                 tvmessage.setText("Usuario "+updateUsername+", actualizado correctamente...");
             }else{
                 tvmessage.setTextColor(Color.RED);
                 tvmessage.setText("Usuario "+updateUsername+", esta asignado a otro. Intentelo con otro");
             }
-            //db.close();
+            db.close();
         }
-        //dbw.close();
+        dbw.close();
     }
 
     private void searchUser(String username) {
@@ -175,9 +301,19 @@ public class MainActivity extends AppCompatActivity {
             etfullname.setText(cUser.getString(1));
             etpassword.setText(cUser.getString(2));
             etemail.setText(cUser.getString(3));
-            etrole.setText(cUser.getString(4));
+            /*int index;
+            if (cUser.getString(4).equals("Admin")){
+                index = 1;
+            }else{
+                index = 2;
+            }*/
+            int index = cUser.getString(4).equals("Admin") ? 1 : 2; //Operador ternario
+            spRole.setSelection(index);
+
+            //spRole.setText(cUser.getString(4));  Pendiente
 
             tvmessage.setText("Usuario encontrado!!");
+            tvmessage.setTextColor(Color.GREEN);
         }else{
             tvmessage.setTextColor(Color.RED);
             tvmessage.setText("Nombre de usuario NO Existente.!");
