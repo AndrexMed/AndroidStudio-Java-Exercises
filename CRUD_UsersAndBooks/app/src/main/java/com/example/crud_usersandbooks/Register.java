@@ -11,9 +11,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +22,7 @@ public class Register extends AppCompatActivity {
     TextView tvMessage;
     EditText etUser, etName,etEmail,etPassword;
     CheckBox btnStatus;
-    Button btnRegister, btnDelete, btnSearch, btnBack, btnUpdate;
+    ImageButton btnRegister, btnDelete, btnSearch, btnBack, btnUpdate;
     String userStatus, userFounded, userToUpdate;
 
     DbConnection dbase = new DbConnection(this, "dbusers",null,1);
@@ -289,7 +289,7 @@ public class Register extends AppCompatActivity {
 
         if(userFounded.equals(userToUpdate)){
             String query = "UPDATE Users SET nameUser = '"+userName+"', emailUser = '"+email+"',"
-                            + "password = '"+password+"', status = '"+userStatus+"'";
+                            + "password = '"+password+"', status = '"+userStatus+"' WHERE idUser = '"+idUser+"'";
 
             dbw.execSQL(query);
             tvMessage.setTextColor(Color.GREEN);

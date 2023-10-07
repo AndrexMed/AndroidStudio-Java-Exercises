@@ -16,10 +16,8 @@
         android:text="Rent a Book"
         android:layout_marginTop="15dp"
         android:textSize="30dp"
-        android:textColor="@color/white"
         android:layout_gravity="center"
-        android:textStyle="bold|italic"
-        android:drawableRight="@drawable/baseline_search_24"/>
+        android:textStyle="bold|italic"/>
 
     <TextView
         android:id="@+id/tvMessage"
@@ -44,7 +42,6 @@
             android:layout_height="50dp"
             android:ems="10"
             android:hint="Enter Id Book"
-            android:textColorHint="@color/white"
             android:gravity="center"
             android:layout_gravity="center"
             android:inputType="text" />
@@ -58,7 +55,6 @@
             android:inputType="text"
             android:hint="Enter Id User"
             android:gravity="center"
-            android:textColorHint="@color/white"
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
@@ -69,12 +65,12 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center">
 
-        <Button
+
+        <ImageButton
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search"
-            android:drawableLeft="@drawable/baseline_search_24"/>
+            app:srcCompat="@drawable/baseline_search_24" />
     </LinearLayout>
 
     <LinearLayout
@@ -95,7 +91,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Book Name: "
-                android:textColor="@color/white"
                 android:textSize="20dp" />
 
             <TextView
@@ -103,8 +98,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/white"
                 android:text=""
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
         </LinearLayout>
 
@@ -119,7 +114,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="User name: "
-                android:textColor="@color/white"
                 android:textSize="20dp"/>
 
             <TextView
@@ -127,8 +121,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/white"
                 android:text=""
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
         </LinearLayout>
 
@@ -142,7 +136,6 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/white"
                 android:text="Cost book: "
                 android:textSize="20dp" />
 
@@ -152,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
         </LinearLayout>
     </LinearLayout>
@@ -161,24 +154,20 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:layout_gravity="center">
 
-        <Button
+        <ImageButton
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rent book"
-            android:enabled="false"
-            android:drawableLeft="@drawable/baseline_add_shopping_cart_24"/>
+            app:srcCompat="@drawable/baseline_add_shopping_cart_24" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/baseline_arrow_back_24"
-            android:text="Back" />
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
     </LinearLayout>
 
 </LinearLayout>

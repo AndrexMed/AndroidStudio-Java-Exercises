@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +20,7 @@ public class RentBook extends AppCompatActivity {
     TextView tvNameBook, tvNameUser, tvCosteBook;
     EditText etIdBook, etIdUser;
     TextView tvMessage;
-    Button btnSearch, btnBack, btnSave;
+    ImageButton btnSearch, btnBack, btnSave;
 
     DbConnection dbase = new DbConnection(this, "dbusers",null,1);
 
@@ -122,7 +122,7 @@ public class RentBook extends AppCompatActivity {
             SQLiteDatabase dbw = dbase.getWritableDatabase();
 
             // Verificar si ya existe un registro con el mismo idBook e idUser
-            String checkQuery = "SELECT COUNT(*) FROM Rents WHERE idBook = ? AND idUser = ?";
+            String checkQuery = "SELECT COUNT(*) FROM Rents WHERE idBook = ? AND idUser = ?";//Parametriza la consulta
             Cursor checkCursor = dbw.rawQuery(checkQuery, new String[]{idBook, idUser});
             checkCursor.moveToFirst();
             int existingCount = checkCursor.getInt(0);
@@ -138,6 +138,13 @@ public class RentBook extends AppCompatActivity {
                     cvRent.put("date", fechaNow);
 
                     dbw.insert("Rents", null, cvRent);
+
+                    // Actualizar el estado del libro a "no disponible"
+                    ContentValues cvBook = new ContentValues();
+                    cvBook.put("available", "0");
+
+                    dbw.update("Books", cvBook, "idBook = ?", new String[]{idBook});
+
                     dbw.close();
                     tvMessage.setTextColor(Color.GREEN);
                     tvMessage.setText("Registro de préstamo exitoso...");

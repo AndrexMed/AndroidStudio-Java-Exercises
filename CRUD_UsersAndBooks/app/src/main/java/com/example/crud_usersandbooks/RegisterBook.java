@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class RegisterBook extends AppCompatActivity {
     TextView tvbookMessage;
     EditText etidbook, etbookname, etcost;
     CheckBox btnbookStatus;
-    Button btnbookRegister, btnbookSearch, btnbookUpdate, btnbookDelete, btnbookBack;
+    ImageButton btnbookRegister, btnbookSearch, btnbookUpdate, btnbookDelete, btnbookBack;
     String bookStatus, bookFounded, bookToUpdate;
 
     DbConnection dbase = new DbConnection(this, "dbusers",null,1);
@@ -123,7 +124,7 @@ public class RegisterBook extends AppCompatActivity {
         if(bookFounded.equals(bookToUpdate)){
 
             String query = "UPDATE Books SET idBook = '"+idBook+"', nameBook = '"+nameBook+"',"
-                    + "coste = '"+cost+"', available = '"+available+"'";
+                    + "coste = '"+cost+"', available = '"+available+"' WHERE idBook = '"+idBook+"'";
 
             dbw.execSQL(query);
             tvbookMessage.setTextColor(Color.GREEN);
