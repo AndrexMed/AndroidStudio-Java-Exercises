@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="#D8F4D9"
+    >
+    <TextView
+        android:id="@+id/tvmessage"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Actualización de Usuarios"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Usuario"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        />
+    <EditText
+        android:id="@+id/etusername"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Ingrese usuario"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:drawableStart="@drawable/baseline_person_24"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre Completo"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        />
+    <EditText
+        android:id="@+id/etfullname"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Ingrese Nombre Completo"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:drawableStart="@drawable/baseline_person_24"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Correo Electrónico"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        />
+    <EditText
+        android:id="@+id/etemail"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Ingrese Email"
+        android:gravity="center"
+        android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/baseline_email_24"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contraseña"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        />
+    <EditText
+        android:id="@+id/etpassword"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Ingrese contraseña"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/baseline_key_24"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Función o Rol"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        />
+    <!-- <EditText
+        android:id="@+id/etrole"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Ingrese rol"
+        android:gravity="center"
+        android:inputType="number"
+        android:drawableStart="@drawable/baseline_contacts_24"
+        /> -->
+    <Spinner
+        android:id="@+id/spRole"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        >
+        <ImageButton
+            android:id="@+id/btnsave"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_save_24"
+            />
+        <ImageButton
+            android:id="@+id/btnsearch"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_person_search_24"
+            />
+        <ImageButton
+            android:id="@+id/btnlist"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_list_24"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        >
+        <ImageButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_edit_24"
+            />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_delete_24"
+            />
+        <ImageButton
+            android:id="@+id/btnClear"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_clear_24"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
