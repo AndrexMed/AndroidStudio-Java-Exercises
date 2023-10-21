@@ -53,6 +53,14 @@ public class UserRegister extends AppCompatActivity {
             }
         });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userName = etusername.getText().toString();
+                deleteUser(userName);
+            }
+        });
+
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +86,17 @@ public class UserRegister extends AppCompatActivity {
                 SearchUser(userName);
             }
         });
+    }
+
+    private void deleteUser(String userName) {
+            db.collection("Users").document(userName).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    tvmessage.setTextColor(Color.GREEN);
+                    tvmessage.setText("User has been removed");
+                    clearData();
+                }
+            });
     }
 
     private boolean IsDataUserValid(String userName, String fullName, String password) {

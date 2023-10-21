@@ -39,13 +39,6 @@ public class MainActivity extends AppCompatActivity {
         btlogin = findViewById(R.id.btlogin);
         btRegisterCar = findViewById(R.id.btRegisterCar);
 
-        btRegisterCar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoCarRegister();
-            }
-        });
-
         btlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 GoUserRegister();
+            }
+        });
+        btRegisterCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoCarRegister();
             }
         });
     }
@@ -90,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
                             Intent rentCar = new Intent(getApplicationContext(), RentCar.class);
                             startActivity(rentCar);
                     } else {
-                        Toast.makeText(MainActivity.this, "User invalid", Toast.LENGTH_SHORT).show();
+                        tvtitle.setTextColor(Color.RED);
+                        tvtitle.setText("User Invalid!");
                         clearData();
                     }
                 } else {

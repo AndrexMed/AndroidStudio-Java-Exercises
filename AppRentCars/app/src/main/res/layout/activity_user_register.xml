@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserRegister"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#D6EAF8">
 
     <TextView
         android:id="@+id/tvmessage"
@@ -21,7 +22,8 @@
         android:gravity="center"
         android:layout_marginTop="40dp"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
     <LinearLayout
         android:layout_width="340dp"
@@ -36,7 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Ingrese usuario"
+            android:hint="Enter UserName"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:gravity="center"
             android:inputType="textPersonName"
             android:drawableStart="@drawable/baseline_person_24"/>
@@ -46,7 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Ingrese Nombre Completo"
+            android:hint="Enter Full Name"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:gravity="center"
             android:inputType="textPersonName"
             android:drawableStart="@drawable/baseline_person_24"/>
@@ -56,7 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Ingrese contraseña"
+            android:hint="Enter Password"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:gravity="center"
             android:inputType="textPassword"
             android:drawableStart="@drawable/baseline_key_24"
@@ -70,12 +78,12 @@
         android:gravity="center"
         android:layout_marginTop="20dp"
         >
+
         <ImageButton
             android:id="@+id/btnsave"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_save_24"
-            />
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_save_24" />
         <ImageButton
             android:id="@+id/btnsearch"
             android:layout_width="100dp"

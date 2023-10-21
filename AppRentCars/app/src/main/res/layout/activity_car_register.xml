@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CarRegister"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#D6EAF8">
 
     <TextView
         android:id="@+id/tvregisterCar"
@@ -15,8 +16,8 @@
         android:gravity="center"
         android:layout_marginTop="15dp"
         android:text="REGISTER A CAR"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
         android:textSize="30dp"/>
 
     <ImageView
@@ -28,55 +29,59 @@
         android:src="@drawable/camaro" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="218dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/etplateNumber"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="# PLATE"
+            android:hint="PlateNumber"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:inputType="text"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etbrand"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="BRAND"
+            android:hint="Brand"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:inputType="text"
             android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etstate"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:ems="10"
             android:gravity="center"
-            android:hint="STATE"
+            android:hint="State"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:inputType="text"
             android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/btStatus"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:text="Enable/Disabled"
             android:textSize="15dp"
-            android:gravity="center"
-            android:layout_marginTop="10dp"/>
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -85,7 +90,7 @@
         android:layout_height="57dp"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="20dp">
 
         <Button
             android:id="@+id/btregisterCar"

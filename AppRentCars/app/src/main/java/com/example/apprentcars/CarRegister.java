@@ -3,6 +3,7 @@ package com.example.apprentcars;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +29,7 @@ public class CarRegister extends AppCompatActivity {
 
     EditText etplateNumber, etbrand, etstate;
     CheckBox btStatus;
-    Button btregisterCar;
+    Button btregisterCar, btback;
     TextView tvregisterCar;
 
     @Override
@@ -42,7 +43,16 @@ public class CarRegister extends AppCompatActivity {
         btStatus = findViewById(R.id.btStatus);
 
         btregisterCar = findViewById(R.id.btregisterCar);
+        btback = findViewById(R.id.btback);
+
         tvregisterCar = findViewById(R.id.tvregisterCar);
+
+        btback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoBack();
+            }
+        });
 
         btregisterCar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +69,14 @@ public class CarRegister extends AppCompatActivity {
                 } else {
                     tvregisterCar.setTextColor(Color.RED);
                     tvregisterCar.setText("All fields are required");
-                }            }
+                }
+            }
         });
+    }
+
+    private void GoBack() {
+        Intent GoMain = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(GoMain);
     }
 
     private void CarRegister(String plateNumber, String brand, String state, boolean carStatus) {
@@ -79,6 +95,7 @@ public class CarRegister extends AppCompatActivity {
                         public void onSuccess(DocumentReference documentReference) {
                             tvregisterCar.setTextColor(Color.GREEN);
                             tvregisterCar.setText("Car registered");
+                            clearData();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -110,7 +127,7 @@ public class CarRegister extends AppCompatActivity {
         etstate.setText("");
     }
 
-    private void showErrorMessage(String message){
+    private void showErrorMessage(String message) {
         tvregisterCar.setTextColor(Color.RED);
         tvregisterCar.setText(message);
         clearData();
