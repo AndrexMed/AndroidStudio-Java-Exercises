@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     //Conexion a Firestore de Firebase
@@ -64,12 +66,35 @@ public class MainActivity extends AppCompatActivity {
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String username = etusername.getText().toString();
                 String fullname = etfullname.getText().toString();
                 String email = etemail.getText().toString();
                 String password = etpassword.getText().toString();
                 String role = spRole.getSelectedItem().toString();
-                SaveUser(username, fullname, email, password, role);
+
+                if (!username.isEmpty() && !fullname.isEmpty()
+                        && !email.isEmpty() && !password.isEmpty() && !role.isEmpty()) {
+
+                    Pattern patEmail = Patterns.EMAIL_ADDRESS;
+
+                    if (patEmail.matcher(email).matches()) {
+
+                        if (!role.equals("Seleccione un rol")) {
+                            SaveUser(username, fullname, email, password, role);
+                        } else {
+                            tvmessage.setTextColor(Color.RED);
+                            tvmessage.setText("Seleccione un rol valido!");
+                        }
+                    } else {
+                        etemail.setError("Email invalido");
+                    }
+
+                    //saveUser(username, fullname, email, password, role);
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Debe ingresar todos los datos solicitados");
+                }
             }
         });
 
@@ -81,13 +106,25 @@ public class MainActivity extends AppCompatActivity {
                 SearchUser(username);
             }
         });
-        
+
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = etusername.getText().toString();
-                
+
                 DeleteUser(username);
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etusername.setText("");
+                etfullname.setText("");
+                etemail.setText("");
+                etpassword.setText("");
+                tvmessage.setText("");
+                spRole.setSelection(0);
             }
         });
     }
@@ -119,12 +156,20 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                        tvmessage.setTextColor(Color.GREEN);
-                                        tvmessage.setText("User founded");
-                                        etfullname.setText(document.getString("FullName"));
-                                        //Log.d(TAG, document.getId() + " => " + document.getData());
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    tvmessage.setTextColor(Color.GREEN);
+                                    tvmessage.setText("User founded");
+                                    etfullname.setText(document.getString("FullName"));
+                                    etemail.setText(document.getString("Email"));
+                                    spRole.setSelection(document.get("Role").equals("Admin") ? 1 : 2);
+                                    //Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                            } else {
+                                tvmessage.setTextColor(Color.RED);
+                                tvmessage.setText("Usuario no existe");
                             }
+
                         } else {
                             tvmessage.setTextColor(Color.RED);
                             tvmessage.setText("Error inesperado!");
