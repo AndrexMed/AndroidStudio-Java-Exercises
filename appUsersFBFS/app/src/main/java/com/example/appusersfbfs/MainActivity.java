@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btnsave, btnsearch, btnlist, btnUpdate, btnDelete, btnClear;
     TextView tvmessage;
 
-    String userNameFounded = "";
-    String userToUpdate = "";
+    String idAutomatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,21 @@ public class MainActivity extends AppCompatActivity {
                 String password = etpassword.getText().toString();
                 String role = spRole.getSelectedItem().toString();
 
-                if (!username.isEmpty() && !fullname.isEmpty()
+                boolean isDataUserValid = dataUserValidation(username, fullname, email, password);
+                boolean isEmailUserValid = emailUserValidation(email);
+
+                if (isDataUserValid) {
+                    if (!role.equals("Seleccione un rol")) {
+                        SaveUser(username, fullname, email, password, role);
+                    }
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Seleccione un rol valido!");
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Debe ingresar todos los datos solicitados");
+                }
+
+                /*if (!username.isEmpty() && !fullname.isEmpty()
                         && !email.isEmpty() && !password.isEmpty() && !role.isEmpty()) {
 
                     Pattern patEmail = Patterns.EMAIL_ADDRESS;
@@ -94,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     tvmessage.setTextColor(Color.RED);
                     tvmessage.setText("Debe ingresar todos los datos solicitados");
-                }
+                }*/
             }
         });
 
@@ -103,16 +116,51 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = etusername.getText().toString();
 
-                SearchUser(username);
+                if (!username.isEmpty()) {
+                    SearchUser(username);
+                } else {
+
+                }
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String username = etusername.getText().toString();
+                String fullname = etfullname.getText().toString();
+                String email = etemail.getText().toString();
+                String password = etpassword.getText().toString();
+                String role = spRole.getSelectedItem().toString();
+
+                boolean isDataUserValidation = dataUserValidation(username, fullname, email, password);
+
+                if (isDataUserValidation) {
+                    if (!role.equals("Seleccione un rol")) {
+                        UpdateUser(username, fullname, email, password, role);
+                    }
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Selecionne un rol valido");
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Campos obligatorios");
+                }
             }
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String username = etusername.getText().toString();
-
-                DeleteUser(username);
+            public void onClick(View view) {
+                db.collection("Users").document(idAutomatic)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                tvmessage.setTextColor(Color.GREEN);
+                                tvmessage.setText("Usuario eliminado correctamente");
+                            }
+                        });
             }
         });
 
@@ -127,6 +175,25 @@ public class MainActivity extends AppCompatActivity {
                 spRole.setSelection(0);
             }
         });
+    }
+
+    private void UpdateUser(String username, String fullname, String email, String password, String role) {
+        Map<String, Object> dataUser = new HashMap<>();
+        dataUser.put("UserName", username);
+        dataUser.put("FullName", fullname);
+        dataUser.put("Email", email);
+        dataUser.put("Password", password);
+        dataUser.put("Role", role);
+
+        db.collection("Users").document(idAutomatic)
+                .set(dataUser)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        tvmessage.setTextColor(Color.GREEN);
+                        tvmessage.setText("Usuario actualizado...");
+                    }
+                });
     }
 
     private void DeleteUser(String username) {
@@ -158,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                    idAutomatic = document.getId();
                                     tvmessage.setTextColor(Color.GREEN);
                                     tvmessage.setText("User founded");
                                     etfullname.setText(document.getString("FullName"));
@@ -180,33 +248,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SaveUser(String username, String fullname, String email, String password, String role) {
-        // Add a new document with a generated id.
-        Map<String, Object> dataUser = new HashMap<>();
-        dataUser.put("UserName", username);
-        dataUser.put("FullName", fullname);
-        dataUser.put("Email", email);
-        dataUser.put("Password", password);
-        dataUser.put("Role", role);
-
         db.collection("Users")
-                .add(dataUser)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .whereEqualTo("UserName", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                        tvmessage.setTextColor(Color.GREEN);
-                        tvmessage.setText("DocumentSnapshot written with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //Log.w(TAG, "Error adding document", e);
-                        tvmessage.setTextColor(Color.RED);
-                        tvmessage.setText("Error adding document" + e);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                // Add a new document with a generated id.
+                                Map<String, Object> dataUser = new HashMap<>();
+                                dataUser.put("UserName", username);
+                                dataUser.put("FullName", fullname);
+                                dataUser.put("Email", email);
+                                dataUser.put("Password", password);
+                                dataUser.put("Role", role);
+
+                                db.collection("Users")
+                                        .add(dataUser)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                                tvmessage.setTextColor(Color.GREEN);
+                                                tvmessage.setText("DocumentSnapshot written with ID: " + documentReference.getId());
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                //Log.w(TAG, "Error adding document", e);
+                                                tvmessage.setTextColor(Color.RED);
+                                                tvmessage.setText("Error adding document" + e);
+                                            }
+                                        });
+                            } else {
+                                tvmessage.setTextColor(Color.RED);
+                                tvmessage.setText("User already exist");
+                            }
+
+                        } else {
+                            tvmessage.setTextColor(Color.RED);
+                            tvmessage.setText("Error inesperado!");
+                            //Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
                     }
                 });
     }//Fin SaveUser
 
+    private boolean dataUserValidation(String username, String fullname, String email, String password) {
+        if (!username.isEmpty() || !fullname.isEmpty() || !email.isEmpty() || !password.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean emailUserValidation(String email) {
+        Pattern patEmail = Patterns.EMAIL_ADDRESS;
+
+        if (patEmail.matcher(email).matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
