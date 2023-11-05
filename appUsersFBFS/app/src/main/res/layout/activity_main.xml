@@ -10,18 +10,20 @@
 
     <TextView
         android:id="@+id/tvmessage"
-        android:layout_width="300dp"
+        android:layout_width="390dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"
+        android:gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Actualización de Usuarios"
-        android:textSize="20sp"
+        android:text="User register"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <TextView

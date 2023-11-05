@@ -72,42 +72,43 @@ public class MainActivity extends AppCompatActivity {
                 String password = etpassword.getText().toString();
                 String role = spRole.getSelectedItem().toString();
 
-                boolean isDataUserValid = dataUserValidation(username, fullname, email, password);
-                boolean isEmailUserValid = emailUserValidation(email);
+                boolean isValid = validateData(username, fullname, email, password);
 
-                if (isDataUserValid) {
+                if (isValid) {
                     if (!role.equals("Seleccione un rol")) {
                         SaveUser(username, fullname, email, password, role);
-                    }
-                    tvmessage.setTextColor(Color.RED);
-                    tvmessage.setText("Seleccione un rol valido!");
-                } else {
-                    tvmessage.setTextColor(Color.RED);
-                    tvmessage.setText("Debe ingresar todos los datos solicitados");
-                }
-
-                /*if (!username.isEmpty() && !fullname.isEmpty()
-                        && !email.isEmpty() && !password.isEmpty() && !role.isEmpty()) {
-
-                    Pattern patEmail = Patterns.EMAIL_ADDRESS;
-
-                    if (patEmail.matcher(email).matches()) {
-
-                        if (!role.equals("Seleccione un rol")) {
-                            SaveUser(username, fullname, email, password, role);
-                        } else {
-                            tvmessage.setTextColor(Color.RED);
-                            tvmessage.setText("Seleccione un rol valido!");
-                        }
                     } else {
-                        etemail.setError("Email invalido");
+                        tvmessage.setTextColor(Color.RED);
+                        tvmessage.setText("Seleccione un rol valido!");
                     }
-
-                    //saveUser(username, fullname, email, password, role);
                 } else {
                     tvmessage.setTextColor(Color.RED);
-                    tvmessage.setText("Debe ingresar todos los datos solicitados");
-                }*/
+                }
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String username = etusername.getText().toString();
+                String fullname = etfullname.getText().toString();
+                String email = etemail.getText().toString();
+                String password = etpassword.getText().toString();
+                String role = spRole.getSelectedItem().toString();
+
+                boolean isValid = validateData(username, fullname, email, password);
+
+                if (isValid) {
+                    if (!role.equals("Seleccione un rol")) {
+                        UpdateUser(username, fullname, email, password, role);
+                    } else {
+                        tvmessage.setTextColor(Color.RED);
+                        tvmessage.setText("Seleccione un rol valido!");
+                    }
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                }
             }
         });
 
@@ -124,43 +125,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String username = etusername.getText().toString();
-                String fullname = etfullname.getText().toString();
-                String email = etemail.getText().toString();
-                String password = etpassword.getText().toString();
-                String role = spRole.getSelectedItem().toString();
-
-                boolean isDataUserValidation = dataUserValidation(username, fullname, email, password);
-
-                if (isDataUserValidation) {
-                    if (!role.equals("Seleccione un rol")) {
-                        UpdateUser(username, fullname, email, password, role);
-                    }
-                    tvmessage.setTextColor(Color.RED);
-                    tvmessage.setText("Selecionne un rol valido");
-                } else {
-                    tvmessage.setTextColor(Color.RED);
-                    tvmessage.setText("Campos obligatorios");
-                }
-            }
-        });
-
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection("Users").document(idAutomatic)
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                tvmessage.setTextColor(Color.GREEN);
-                                tvmessage.setText("Usuario eliminado correctamente");
-                            }
-                        });
+                String userNameToDelete = etusername.getText().toString();
+
+                if (!userNameToDelete.isEmpty()) {
+                    DeleteUser(userNameToDelete);
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Username is required");
+                }
             }
         });
 
@@ -173,144 +148,176 @@ public class MainActivity extends AppCompatActivity {
                 etpassword.setText("");
                 tvmessage.setText("");
                 spRole.setSelection(0);
+                Toast.makeText(MainActivity.this, "All fields are cleared", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void UpdateUser(String username, String fullname, String email, String password, String role) {
-        Map<String, Object> dataUser = new HashMap<>();
-        dataUser.put("UserName", username);
-        dataUser.put("FullName", fullname);
-        dataUser.put("Email", email);
-        dataUser.put("Password", password);
-        dataUser.put("Role", role);
-
-        db.collection("Users").document(idAutomatic)
-                .set(dataUser)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        tvmessage.setTextColor(Color.GREEN);
-                        tvmessage.setText("Usuario actualizado...");
-                    }
-                });
-    }
-
-    private void DeleteUser(String username) {
-        db.collection("Users").document(username)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        tvmessage.setText("User deleted");
-                        //Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        tvmessage.setText("Error deleting user");
-                        //Log.w(TAG, "Error deleting document", e);
-                    }
-                });
-    }
-
-    private void SearchUser(String username) {
         db.collection("Users")
                 .whereEqualTo("UserName", username)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    idAutomatic = document.getId();
-                                    tvmessage.setTextColor(Color.GREEN);
-                                    tvmessage.setText("User founded");
-                                    etfullname.setText(document.getString("FullName"));
-                                    etemail.setText(document.getString("Email"));
-                                    spRole.setSelection(document.get("Role").equals("Admin") ? 1 : 2);
-                                    //Log.d(TAG, document.getId() + " => " + document.getData());
+                                    String idAutomatic = document.getId();
+                                    Map<String, Object> dataUser = new HashMap<>();
+                                    dataUser.put("UserName", username);
+                                    dataUser.put("FullName", fullname);
+                                    dataUser.put("Email", email);
+                                    dataUser.put("Password", password);
+                                    dataUser.put("Role", role);
+
+                                    db.collection("Users").document(idAutomatic).set(dataUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            tvmessage.setTextColor(Color.BLUE);
+                                            tvmessage.setText("Usuario actualizado...");
+                                        }
+                                    });
                                 }
                             } else {
                                 tvmessage.setTextColor(Color.RED);
-                                tvmessage.setText("Usuario no existe");
+                                tvmessage.setText("User no found to eliminated");
                             }
-
                         } else {
                             tvmessage.setTextColor(Color.RED);
                             tvmessage.setText("Error inesperado!");
-                            //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
 
-    private void SaveUser(String username, String fullname, String email, String password, String role) {
+    private void DeleteUser(String userName) {
         db.collection("Users")
-                .whereEqualTo("UserName", username)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .whereEqualTo("UserName", userName)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            if (task.getResult().isEmpty()) {
-                                // Add a new document with a generated id.
-                                Map<String, Object> dataUser = new HashMap<>();
-                                dataUser.put("UserName", username);
-                                dataUser.put("FullName", fullname);
-                                dataUser.put("Email", email);
-                                dataUser.put("Password", password);
-                                dataUser.put("Role", role);
-
-                                db.collection("Users")
-                                        .add(dataUser)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                                tvmessage.setTextColor(Color.GREEN);
-                                                tvmessage.setText("DocumentSnapshot written with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                //Log.w(TAG, "Error adding document", e);
-                                                tvmessage.setTextColor(Color.RED);
-                                                tvmessage.setText("Error adding document" + e);
-                                            }
-                                        });
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String idAutomatic = document.getId();
+                                    db.collection("Users").document(idAutomatic).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            tvmessage.setTextColor(Color.BLUE);
+                                            tvmessage.setText("Usuario eliminado correctamente");
+                                        }
+                                    });
+                                }
                             } else {
                                 tvmessage.setTextColor(Color.RED);
-                                tvmessage.setText("User already exist");
+                                tvmessage.setText("User no found to eliminated");
                             }
-
                         } else {
                             tvmessage.setTextColor(Color.RED);
                             tvmessage.setText("Error inesperado!");
-                            //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-    }//Fin SaveUser
-
-    private boolean dataUserValidation(String username, String fullname, String email, String password) {
-        if (!username.isEmpty() || !fullname.isEmpty() || !email.isEmpty() || !password.isEmpty()) {
-            return true;
-        }
-        return false;
     }
 
-    private boolean emailUserValidation(String email) {
-        Pattern patEmail = Patterns.EMAIL_ADDRESS;
+    private void SearchUser(String username) {
+        db.collection("Users").whereEqualTo("UserName", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (!task.getResult().isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            idAutomatic = document.getId();
+                            tvmessage.setTextColor(Color.GREEN);
+                            tvmessage.setText("User founded");
+                            etfullname.setText(document.getString("FullName"));
+                            etemail.setText(document.getString("Email"));
+                            spRole.setSelection(document.get("Role").equals("Admin") ? 1 : 2);
+                        }
+                    } else {
+                        tvmessage.setTextColor(Color.RED);
+                        tvmessage.setText("User not found");
+                    }
 
-        if (patEmail.matcher(email).matches()) {
-            return true;
-        } else {
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Error inesperado!");
+                    //Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void SaveUser(String username, String fullname, String email, String password, String role) {
+        db.collection("Users").whereEqualTo("UserName", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().isEmpty()) {
+                        // Add a new document with a generated id.
+                        Map<String, Object> dataUser = new HashMap<>();
+                        dataUser.put("UserName", username);
+                        dataUser.put("FullName", fullname);
+                        dataUser.put("Email", email);
+                        dataUser.put("Password", password);
+                        dataUser.put("Role", role);
+
+                        db.collection("Users").add(dataUser).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                tvmessage.setTextColor(Color.BLUE);
+                                tvmessage.setText("DocumentSnapshot written with ID: " + documentReference.getId());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                //Log.w(TAG, "Error adding document", e);
+                                tvmessage.setTextColor(Color.RED);
+                                tvmessage.setText("Error adding document" + e);
+                            }
+                        });
+                    } else {
+                        tvmessage.setTextColor(Color.RED);
+                        tvmessage.setText("User already exist");
+                    }
+
+                } else {
+                    tvmessage.setTextColor(Color.RED);
+                    tvmessage.setText("Error inesperado!");
+                    //Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private boolean validateData(String username, String fullname, String email, String password) {
+
+        if (username.isEmpty()) {
+            tvmessage.setText("Username is required.\n");
             return false;
         }
+
+        if (fullname.isEmpty()) {
+            tvmessage.setText("Full name is required.\n");
+            return false;
+        }
+
+        if (email.isEmpty()) {
+            tvmessage.setText("Email is mandatory.\n");
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            tvmessage.setText("The password is required.\n");
+            return false;
+        }
+
+        if (!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tvmessage.setText("The email is not validly formatted.\n");
+            return false;
+        }
+        return true;
     }
 
 }
