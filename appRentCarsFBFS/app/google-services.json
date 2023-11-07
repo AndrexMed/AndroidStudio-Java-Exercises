@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "661181574984",
+    "project_id": "apprentcarsfbfs",
+    "storage_bucket": "apprentcarsfbfs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661181574984:android:8eb641ba9e0949c6aa4d7d",
+        "android_client_info": {
+          "package_name": "com.example.apprentcarsfbfs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqAoc94IaFJfpjxkTG_1yUNa73zF6_oB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
