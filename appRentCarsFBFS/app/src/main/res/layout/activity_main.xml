@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/fondo"
     android:orientation="vertical"
     android:padding="15dp"
@@ -10,12 +11,10 @@
 
 
     <ImageView
-        android:id="@+id/logo"
-        android:layout_width="300dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        tools:srcCompat="@drawable/rent_a_car" />
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="139dp"
+        app:srcCompat="@drawable/rent_a_car" />
 
     <EditText
         android:id="@+id/etUser"
@@ -28,6 +27,7 @@
         android:background="@drawable/edt_style"
         android:drawableLeft="@drawable/baseline_person_24"
         android:drawablePadding="10dp"
+        android:fontFamily="@font/montserratblack"
         android:ems="10"
         android:hint="User"
         android:inputType="textPersonName"
@@ -44,6 +44,7 @@
         android:drawableLeft="@drawable/baseline_lock_24"
         android:drawablePadding="10dp"
         android:ems="10"
+        android:fontFamily="@font/montserratblack"
         android:hint="Password"
         android:inputType="textPassword"
 
@@ -58,6 +59,7 @@
         android:layout_marginBottom="5dp"
         android:backgroundTint="@color/accent"
         android:text="Login"
+        android:fontFamily="@font/montserratblack"
         android:textColor="@color/white"
         android:textSize="20dp" />
 
@@ -68,14 +70,16 @@
         android:backgroundTint="@color/transparent"
         android:text="Don't have a account?"
         android:textColor="@color/white"
+        android:fontFamily="@font/montserratblack"
         android:textSize="15dp" />
 
-    <!--<TextView
+    <TextView
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Or loggin with"
+        android:fontFamily="@font/montserratblack"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -91,15 +95,15 @@
             android:layout_width="52dp"
             android:layout_height="36dp"
             android:layout_margin="5dp"
-            tools:srcCompat="@drawable/logo_face" />
+            app:srcCompat="@drawable/logo_face" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="53dp"
             android:layout_height="37dp"
             android:layout_margin="5dp"
-            tools:srcCompat="@drawable/logo_google" />
-    </LinearLayout>-->
+            app:srcCompat="@drawable/logo_google" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btForgotPass"
@@ -107,6 +111,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/transparent"
         android:text="Forgot Password?"
+        android:fontFamily="@font/montserratblack"
         android:textColor="@color/white"
         android:textSize="15dp" />
 

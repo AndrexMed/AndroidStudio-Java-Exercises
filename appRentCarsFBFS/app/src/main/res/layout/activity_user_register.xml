@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
+        android:fontFamily="@font/montserratblack"
         android:layout_gravity="center"/>
 
     <TextView
@@ -24,14 +25,14 @@
         android:text="Register"
         android:textColor="#FFFB73"
         android:textSize="40dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserratblack"/>
 
     <LinearLayout
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center">
+        android:layout_marginTop="50dp">
 
 
         <EditText
@@ -43,7 +44,8 @@
             android:ems="10"
             android:hint="   User"
             android:inputType="text"
-            android:textColorHint="@color/black" />
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/montserratblack"/>
 
         <EditText
             android:id="@+id/editTextText2"
@@ -53,6 +55,7 @@
             android:inputType="text"
             android:hint="   Name"
             android:textColorHint="@color/black"
+            android:fontFamily="@font/montserratblack"
             android:textColor="@color/black"
             android:drawableLeft="@drawable/baseline_remember_me_24"
             android:background="@drawable/edt_style_register2"/>
@@ -65,6 +68,7 @@
             android:inputType="none"
             android:hint="   Role"
             android:textColorHint="@color/black"
+            android:fontFamily="@font/montserratblack"
             android:drawableLeft="@drawable/baseline_settings_accessibility_24"
             android:background="@drawable/edt_style_register2"
             />
@@ -77,6 +81,7 @@
             android:inputType="text"
             android:hint="   Keyword"
             android:textColorHint="@color/black"
+            android:fontFamily="@font/montserratblack"
             android:background="@drawable/edt_style_register3"
             android:drawableLeft="@drawable/baseline_password_24"/>
 
@@ -90,6 +95,7 @@
         android:layout_marginTop="40dp"
         android:textSize="20dp"
         android:backgroundTint="@color/accent"
+        android:fontFamily="@font/montserratblack"
         android:layout_gravity="center"/>
 
     <ImageView
@@ -108,6 +114,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:fontFamily="@font/montserratblack"
         android:gravity="center"
         android:drawableRight="@drawable/baseline_copyright_24"/>
 
