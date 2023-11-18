@@ -61,27 +61,16 @@
         android:textColor="@color/white"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/tvRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Don't have a account?"
-        android:textColor="@color/white" />
-
     <Button
         android:id="@+id/btRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/transparent"
         android:text="Don't have a account?"
         android:textColor="@color/white"
         android:textSize="15dp" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,15 +99,12 @@
             android:layout_height="37dp"
             android:layout_margin="5dp"
             tools:srcCompat="@drawable/logo_google" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <Button
         android:id="@+id/btForgotPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/transparent"
         android:text="Forgot Password?"
         android:textColor="@color/white"
