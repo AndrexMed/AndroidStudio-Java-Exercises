@@ -1,9 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Return_car">
+    tools:context=".Return_car"
+    android:orientation="vertical"
+    android:background="@drawable/fondo">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFB73"
+        android:textSize="35dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:fontFamily="@font/montserratblack"
+        android:text="Return Car"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratblack"
+            android:background="@drawable/edt_style" />
+
+        <EditText
+            android:id="@+id/editTextText5"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:background="@drawable/edt_style"
+            android:gravity="center"
+            android:textColorHint="@color/black"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserratblack"
+            android:hint="Number plate" />
+
+        <EditText
+            android:id="@+id/editTextText6"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:gravity="center"
+            android:background="@drawable/edt_style"
+            android:textColorHint="@color/black"
+            android:fontFamily="@font/montserratblack"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="Return Date" />
+
+        <TextView
+            android:id="@+id/tvNumberRent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:gravity="center"
+            android:fontFamily="@font/montserratblack"
+            android:text="aqui se mostrara el numero de la devolucion cuando lo devuelva" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btReturnCar"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent"
+            android:fontFamily="@font/montserratblack"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="Return car" />
+
+        <Button
+            android:id="@+id/btSignOut"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent"
+            android:fontFamily="@font/montserratblack"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="Sign Out" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="139dp"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/rent_a_car" />
+
+    <TextView
+        android:id="@+id/tvMessage2"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
+        android:text="All rights reserved"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserratblack"
+        android:gravity="center"
+        android:drawableRight="@drawable/baseline_copyright_24"/>
+
+</LinearLayout>

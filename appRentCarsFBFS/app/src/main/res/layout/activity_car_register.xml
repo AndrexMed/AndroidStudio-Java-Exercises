@@ -8,4 +8,178 @@
     android:orientation="vertical"
     android:background="@drawable/fondo">
 
+
+    <TextView
+        android:id="@+id/tvRegisterCar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register a car"
+        android:gravity="center"
+        android:textSize="35dp"
+        android:textColor="#FFFB73"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/montserratblack"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/etPlateNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edt_style"
+                android:textColorHint="@color/black"
+                android:fontFamily="@font/montserratblack"
+                android:gravity="center"
+                android:hint="Plate Number" />
+
+            <EditText
+                android:id="@+id/etBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edt_style"
+                android:textColorHint="@color/black"
+                android:fontFamily="@font/montserratblack"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:hint="Brand" />
+
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edt_style"
+                android:textColorHint="@color/black"
+                android:fontFamily="@font/montserratblack"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Car Name" />
+
+            <EditText
+                android:id="@+id/etValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:background="@drawable/edt_style"
+                android:textColorHint="@color/black"
+                android:fontFamily="@font/montserratblack"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Value per daily" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Avaliable / Disable"
+                android:textColor="#FFFB73"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/montserratblack"
+                />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btCreate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent"
+            android:fontFamily="@font/montserratblack"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:text="Create" />
+
+        <Button
+            android:id="@+id/btRead"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/montserratblack"
+            android:text="Read" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent"
+            android:fontFamily="@font/montserratblack"
+            android:text="Update" />
+
+        <Button
+            android:id="@+id/btDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/accent"
+            android:fontFamily="@font/montserratblack"
+            android:text="Delete" />
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/btBack"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/accent"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserratblack"
+            android:text="Back" />
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="139dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/rent_a_car" />
+
+    <TextView
+        android:id="@+id/tvMessage2"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
+        android:text="All rights reserved"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserratblack"
+        android:gravity="center"
+        android:drawableRight="@drawable/baseline_copyright_24"/>
+
 </LinearLayout>

@@ -114,5 +114,16 @@
         android:fontFamily="@font/montserratblack"
         android:textColor="@color/white"
         android:textSize="15dp" />
+    <TextView
+        android:id="@+id/tvMessage2"
+        android:layout_width="199dp"
+        android:layout_height="wrap_content"
+        android:text="All rights reserved"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/montserratblack"
+        android:gravity="center"
+        android:drawableRight="@drawable/baseline_copyright_24"/>
 
 </LinearLayout>
