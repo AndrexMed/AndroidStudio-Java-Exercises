@@ -101,7 +101,7 @@ public class RentCar extends AppCompatActivity {
     private void setFechaActual() {
         // Obtén la fecha y hora actual
         Date currentDate = new Date();
-        System.out.println(currentDate);
+
         // Crea un formato de fecha y hora personalizado (puedes ajustar el formato según tus necesidades)
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         dateFormat.setTimeZone(TimeZone.getDefault());

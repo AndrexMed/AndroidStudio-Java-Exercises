@@ -14,6 +14,7 @@ public class HomeMenu extends AppCompatActivity {
     TextView tvTitleUserName;
     Button btnRegisterCar, btnCarsRented, btnRentCar, btnCarsAvailables;
     LinearLayout AdminMenu;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class HomeMenu extends AppCompatActivity {
         btnRegisterCar = findViewById(R.id.btnRegisterCar);
         btnCarsRented = findViewById(R.id.btnCarsRented);
 
-        String userName = getIntent().getStringExtra("userName");
+        userName = getIntent().getStringExtra("userName");
         tvTitleUserName.setText("Welcome "+userName);
 
         String role = getIntent().getStringExtra("role");
@@ -76,6 +77,7 @@ public class HomeMenu extends AppCompatActivity {
 
     private void GoRentCar() {
         Intent rentCar = new Intent(getApplicationContext(), RentCar.class);
+        rentCar.putExtra("role", userName);
         startActivity(rentCar);
     }
 
