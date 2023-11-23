@@ -72,7 +72,6 @@ private void ChangePassword(String userName, String keyWord, String newPassword)
 
             if (storedPalabraSecreta.equals(keyWord)) {
                 updateUserPassword(document.getId(), newPassword);
-                Toast.makeText(Remember_Password.this, "Password changed!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(Remember_Password.this, "Secret word is invalid!", Toast.LENGTH_SHORT).show();
             }
@@ -88,7 +87,7 @@ private void ChangePassword(String userName, String keyWord, String newPassword)
                     Toast.makeText(this, "Contraseña actualizada!", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(Remember_Password.this, "Error al cambiar la contraseña", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Remember_Password.this, "Password changed!", Toast.LENGTH_SHORT).show();
                 });
     }
 

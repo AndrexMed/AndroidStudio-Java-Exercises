@@ -1,4 +1,4 @@
-package com.example.apprentcarsfbfs;
+package com.example.apprentcarsfbfs.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.apprentcarsfbfs.models.Cars;
+import com.example.apprentcarsfbfs.R;
 
 import java.util.ArrayList;
 

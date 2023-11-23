@@ -77,7 +77,7 @@ public class HomeMenu extends AppCompatActivity {
 
     private void GoRentCar() {
         Intent rentCar = new Intent(getApplicationContext(), RentCar.class);
-        rentCar.putExtra("role", userName);
+        rentCar.putExtra("userName", userName);
         startActivity(rentCar);
     }
 

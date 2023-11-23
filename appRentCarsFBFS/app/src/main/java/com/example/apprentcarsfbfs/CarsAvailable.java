@@ -6,10 +6,10 @@
     import androidx.recyclerview.widget.RecyclerView;
 
     import android.os.Bundle;
-    import android.widget.ListView;
-    import android.widget.Spinner;
     import android.widget.Toast;
 
+    import com.example.apprentcarsfbfs.adapters.RentAdapter;
+    import com.example.apprentcarsfbfs.models.Cars;
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
     import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,7 +17,6 @@
     import com.google.firebase.firestore.QuerySnapshot;
 
     import java.util.ArrayList;
-    import java.util.List;
 
     public class CarsAvailable extends AppCompatActivity {
 

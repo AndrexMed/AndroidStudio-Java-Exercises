@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,8 +29,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class RentCar extends AppCompatActivity {
@@ -39,6 +43,8 @@ public class RentCar extends AppCompatActivity {
     Spinner spinner;
     TextView txtFechaHoraActual;
     EditText etFechaEntrega, etHoraEntrega;
+    Button btRentCar;
+    String userName;
     private Calendar calendar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -51,6 +57,9 @@ public class RentCar extends AppCompatActivity {
         txtFechaHoraActual = findViewById(R.id.txtFechaHoraActual);
         etFechaEntrega = findViewById(R.id.etFechaEntrega);
         etHoraEntrega = findViewById(R.id.etHoraEntrega);
+        btRentCar = findViewById(R.id.btRentCar);
+
+        userName = getIntent().getStringExtra("userName");
 
         GetCarsAvailable();
 
@@ -88,7 +97,39 @@ public class RentCar extends AppCompatActivity {
 
         // Iniciar la actualización de la hora
         handler.post(updateTimeRunnable);
+
+        btRentCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rentCar();
+            }
+        });
     }//Fin Oncreate
+
+    private void rentCar() {
+        String carSelected = spinner.getSelectedItem().toString();
+        String dateInitial = setFechaActual();
+        String dateReturnSelected = etFechaEntrega.getText().toString();
+        String hourReturnSelected = etHoraEntrega.getText().toString();
+        String dateConcat = dateReturnSelected +" "+ hourReturnSelected;
+
+        Map<String, Object> rentalData = new HashMap<>();
+        rentalData.put("plateNumber", carSelected);
+        rentalData.put("dateInitialRent", dateInitial);
+        rentalData.put("dateFinalRent", dateConcat);
+        rentalData.put("userName", userName);
+
+        db.collection("rentals")
+                .add(rentalData)
+                .addOnSuccessListener(documentReference -> {
+                    // Éxito al agregar los datos a Firestore
+                    Toast.makeText(this, "Datos guardados en Firestore", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    // Error al agregar los datos a Firestore
+                    Toast.makeText(this, "Error al guardar los datos en Firestore", Toast.LENGTH_SHORT).show();
+                });
+    }
 
     @Override //Para evitar fugas de memoria
     protected void onDestroy() {
@@ -98,7 +139,7 @@ public class RentCar extends AppCompatActivity {
         handler.removeCallbacks(updateTimeRunnable);
     }
 
-    private void setFechaActual() {
+    private String setFechaActual() {
         // Obtén la fecha y hora actual
         Date currentDate = new Date();
 
@@ -111,6 +152,8 @@ public class RentCar extends AppCompatActivity {
 
         // Establece la fecha y hora actual en el TextView
         txtFechaHoraActual.setText(fechaHoraActual);
+        // Convierte la fecha y hora actual al formato deseado y devuelve la cadena
+        return dateFormat.format(currentDate);
     }
 
     private void GetCarsAvailable(){

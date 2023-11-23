@@ -1,4 +1,4 @@
-package com.example.apprentcarsfbfs;
+package com.example.apprentcarsfbfs.models;
 
 public class Cars {
     private String brand;
