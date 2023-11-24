@@ -29,9 +29,9 @@ public class Cars {
 
     public void setState(boolean state) {
         this.state = state;
-    }
+    }*/
 
-    public double getDailyValue() {
+    /*public double getDailyValue() {
         return dailyValue;
     }
 

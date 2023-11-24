@@ -61,19 +61,6 @@
             android:background="@drawable/edt_style_register2"/>
 
         <EditText
-            android:id="@+id/editTextText3"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="none"
-            android:hint="   Role"
-            android:textColorHint="@color/black"
-            android:fontFamily="@font/montserratblack"
-            android:drawableLeft="@drawable/baseline_settings_accessibility_24"
-            android:background="@drawable/edt_style_register2"
-            />
-
-        <EditText
             android:id="@+id/editTextText4"
             android:layout_width="match_parent"
             android:layout_height="50dp"

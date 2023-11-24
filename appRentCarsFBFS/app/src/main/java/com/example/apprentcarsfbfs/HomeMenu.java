@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class HomeMenu extends AppCompatActivity {
 
     TextView tvTitleUserName;
-    Button btnRegisterCar, btnCarsRented, btnRentCar, btnCarsAvailables;
+    Button btnRegisterCar, btnCarsRented, btnRentCar, btnCarsAvailables, btnDevolver;
     LinearLayout AdminMenu;
     String userName;
 
@@ -29,6 +29,7 @@ public class HomeMenu extends AppCompatActivity {
         AdminMenu = findViewById(R.id.AdminMenu);
         btnRegisterCar = findViewById(R.id.btnRegisterCar);
         btnCarsRented = findViewById(R.id.btnCarsRented);
+        btnDevolver = findViewById(R.id.btnDevolver);
 
         userName = getIntent().getStringExtra("userName");
         tvTitleUserName.setText("Welcome "+userName);
@@ -40,20 +41,6 @@ public class HomeMenu extends AppCompatActivity {
             btnCarsRented.setEnabled(true);
             AdminMenu.setVisibility(View.VISIBLE);
         }
-
-        btnRegisterCar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoRegisterCar();
-            }
-        });
-
-        btnCarsRented.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoCarsRented();
-            }
-        });
 
         btnRentCar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +55,33 @@ public class HomeMenu extends AppCompatActivity {
                 GoCarsAvailables();
             }
         });
+
+        btnDevolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoReturnCar();
+            }
+        });
+
+        btnRegisterCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoRegisterCar();
+            }
+        });
+
+        btnCarsRented.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoCarsRented();
+            }
+        });
+    }
+
+    private void GoRentCar() {
+        Intent rentCar = new Intent(getApplicationContext(), RentCar.class);
+        rentCar.putExtra("userName", userName);
+        startActivity(rentCar);
     }
 
     private void GoCarsAvailables() {
@@ -75,10 +89,10 @@ public class HomeMenu extends AppCompatActivity {
         startActivity(carAvailable);
     }
 
-    private void GoRentCar() {
-        Intent rentCar = new Intent(getApplicationContext(), RentCar.class);
-        rentCar.putExtra("userName", userName);
-        startActivity(rentCar);
+    private void GoReturnCar(){
+        Intent returnCar = new Intent(getApplicationContext(), Return_car.class);
+        returnCar.putExtra("userName", userName);
+        startActivity(returnCar);
     }
 
     private void GoRegisterCar() {
@@ -88,6 +102,7 @@ public class HomeMenu extends AppCompatActivity {
 
     private void GoCarsRented() {
         Intent carsRented = new Intent(getApplicationContext(), CarsRented.class);
+        carsRented.putExtra("userName", userName);
         startActivity(carsRented);
     }
 }

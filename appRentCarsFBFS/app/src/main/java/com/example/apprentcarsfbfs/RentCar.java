@@ -19,6 +19,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,6 +48,7 @@ public class RentCar extends AppCompatActivity {
     Button btRentCar;
     String userName;
     private Calendar calendar;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -107,36 +110,88 @@ public class RentCar extends AppCompatActivity {
     }//Fin Oncreate
 
     private void rentCar() {
-        String carSelected = spinner.getSelectedItem().toString();
-        String dateInitial = setFechaActual();
-        String dateReturnSelected = etFechaEntrega.getText().toString();
-        String hourReturnSelected = etHoraEntrega.getText().toString();
-        String dateConcat = dateReturnSelected +" "+ hourReturnSelected;
+        if(spinner.getSelectedItem() != null){
+            String carSelected = spinner.getSelectedItem().toString();
+            String dateInitial = setFechaActual();
+            String dateReturnSelected = etFechaEntrega.getText().toString();
+            String hourReturnSelected = etHoraEntrega.getText().toString();
+            String dateConcat = dateReturnSelected +" "+ hourReturnSelected;
+
+            if(!dateReturnSelected.isEmpty() && !hourReturnSelected.isEmpty()){
+                saveRentInFirestore(carSelected, dateInitial, dateConcat, userName);
+            } else {
+                Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "No cars available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveRentInFirestore(String carSelected, String dateInitial, String dateConcat, String userName) {
+
+        long numberRent = System.currentTimeMillis();
 
         Map<String, Object> rentalData = new HashMap<>();
         rentalData.put("plateNumber", carSelected);
         rentalData.put("dateInitialRent", dateInitial);
         rentalData.put("dateFinalRent", dateConcat);
         rentalData.put("userName", userName);
+        rentalData.put("status", true);
+        rentalData.put("numberRent", numberRent);
 
-        db.collection("rentals")
+        db.collection("Rentals")
                 .add(rentalData)
                 .addOnSuccessListener(documentReference -> {
-                    // Éxito al agregar los datos a Firestore
-                    Toast.makeText(this, "Datos guardados en Firestore", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(this, "Car rented", Toast.LENGTH_SHORT).show();
+                    updateCarStatus(db, carSelected, false);
                 })
                 .addOnFailureListener(e -> {
-                    // Error al agregar los datos a Firestore
-                    Toast.makeText(this, "Error al guardar los datos en Firestore", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(this, "Internal error", Toast.LENGTH_SHORT).show();
                 });
     }
 
-    @Override //Para evitar fugas de memoria
-    protected void onDestroy() {
-        super.onDestroy();
+    private void updateCarStatus(FirebaseFirestore db, String plateNumber, boolean b) {
+        db.collection("Cars")
+                .whereEqualTo("PlateNumber", plateNumber)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
 
-        // Detener la actualización cuando la actividad se destruye para evitar pérdida de recursos
-        handler.removeCallbacks(updateTimeRunnable);
+                        int selectedIndex = spinner.getSelectedItemPosition();
+                        task.getResult().getDocuments().get(0).getReference().update("State", false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(RentCar.this, "Status car are updated!!", Toast.LENGTH_SHORT).show();
+
+                                // Elimina la placa del carro del Spinner
+                                removePlateFromSpinner(selectedIndex);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(RentCar.this, "No se actualizo el estado del vehículo!!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Internal error with car", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void removePlateFromSpinner(int selectedIndex) {
+        // Obtén el adaptador del Spinner
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinner.getAdapter();
+
+        // Elimina la placa del carro del adaptador
+        adapter.remove(adapter.getItem(selectedIndex));
+
+        // Notifica al adaptador que los datos han cambiado
+        adapter.notifyDataSetChanged();
     }
 
     private String setFechaActual() {
@@ -152,8 +207,8 @@ public class RentCar extends AppCompatActivity {
 
         // Establece la fecha y hora actual en el TextView
         txtFechaHoraActual.setText(fechaHoraActual);
-        // Convierte la fecha y hora actual al formato deseado y devuelve la cadena
-        return dateFormat.format(currentDate);
+
+        return fechaHoraActual;
     }
 
     private void GetCarsAvailable(){
@@ -246,7 +301,6 @@ public class RentCar extends AppCompatActivity {
     }
 
     private void updateFechaEntregaEditText() {
-        // Actualizar el EditText con la fecha seleccionada
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         etFechaEntrega.setText(dateFormat.format(calendar.getTime()));
     }
@@ -258,5 +312,13 @@ public class RentCar extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override //Para evitar fugas de memoria
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Detener la actualización cuando la actividad se destruye para evitar pérdida de recursos
+        handler.removeCallbacks(updateTimeRunnable);
     }
 }
