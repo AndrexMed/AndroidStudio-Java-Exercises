@@ -165,7 +165,7 @@ public class RentCar extends AppCompatActivity {
                         task.getResult().getDocuments().get(0).getReference().update("State", false).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(RentCar.this, "Status car are updated!!", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(RentCar.this, "Status car are updated!!", Toast.LENGTH_SHORT).show();
 
                                 // Elimina la placa del carro del Spinner
                                 removePlateFromSpinner(selectedIndex);

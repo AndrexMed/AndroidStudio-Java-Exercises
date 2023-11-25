@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!userName.isEmpty() && !password.isEmpty()){
                     Login(userName, password);
                 } else{
-                    Toast.makeText(MainActivity.this, "Campos obligarios!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "All fields are required!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
                              break;
                         }
                     } else {
-                        Toast.makeText(MainActivity.this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(MainActivity.this, "Error de servidor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Internal error", Toast.LENGTH_SHORT).show();
                 }
             }
         });

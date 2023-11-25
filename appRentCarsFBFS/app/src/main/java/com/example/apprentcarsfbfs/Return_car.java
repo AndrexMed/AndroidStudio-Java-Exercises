@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,9 +28,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class Return_car extends AppCompatActivity {
+
+    TextView tvFechaSistema;
 
     Button btReturnCar;
 
@@ -43,10 +50,12 @@ public class Return_car extends AppCompatActivity {
 
         spinner = findViewById(R.id.spinner);
         btReturnCar = findViewById(R.id.btReturnCar);
+        tvFechaSistema = findViewById(R.id.tvFechaSistema);
 
         userName = getIntent().getStringExtra("userName");
 
         GetCarsRented();
+        tvFechaSistema.setText(setFechaActual());
 
         btReturnCar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +88,23 @@ public class Return_car extends AppCompatActivity {
         });
     }
 
+    private String setFechaActual() {
+        // Obtén la fecha y hora actual
+        Date currentDate = new Date();
+
+        // Crea un formato de fecha y hora personalizado (puedes ajustar el formato según tus necesidades)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        dateFormat.setTimeZone(TimeZone.getDefault());
+
+        // Convierte la fecha y hora actual al formato deseado
+        String fechaHoraActual = dateFormat.format(currentDate);
+
+        // Establece la fecha y hora actual en el TextView
+        tvFechaSistema.setText(fechaHoraActual);
+
+        return fechaHoraActual;
+    }
+
     private void returnCar() {
         if (spinner.getSelectedItem() != null){
 
@@ -97,11 +123,13 @@ public class Return_car extends AppCompatActivity {
 
                                 QueryDocumentSnapshot rentalDocument = (QueryDocumentSnapshot) task.getResult().getDocuments().get(0);
                                 long rentalNumber = rentalDocument.getLong("numberRent");
-
-                                Toast.makeText(Return_car.this,String.valueOf(rentalNumber), Toast.LENGTH_SHORT).show();
+                                String plateNumber = rentalDocument.getString("plateNumber");
 
                                 UpdateRentalInFS(task, selectedIndex);
                                 insertIntoCarsReturned(rentalNumber);
+                                changeStateCarToAvailable(plateNumber);
+
+                                Toast.makeText(Return_car.this, "Successful car delivery", Toast.LENGTH_SHORT).show();
 
                             } else{
                                 Toast.makeText(Return_car.this, "Internal Error", Toast.LENGTH_SHORT).show();
@@ -114,11 +142,38 @@ public class Return_car extends AppCompatActivity {
         }
     }
 
+    private void changeStateCarToAvailable(String plateNumber) {
+        db.collection("Cars")
+                .whereEqualTo("PlateNumber", plateNumber)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            task.getResult().getDocuments().get(0).getReference().update("State", true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    //Toast.makeText(Return_car.this, "Status car are updated!!", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Return_car.this, "No se actualizo el estado del vehículo!!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Internal error with car", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     private void UpdateRentalInFS(Task<QuerySnapshot> task, int selectedIndex) {
         task.getResult().getDocuments().get(0).getReference().update("status", false).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(Return_car.this, "Rental disabled!!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Return_car.this, "Rental disabled!!", Toast.LENGTH_SHORT).show();
 
                 // Elimina la placa del carro del Spinner
                 removePlateFromSpinner(selectedIndex);
@@ -126,15 +181,14 @@ public class Return_car extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Return_car.this, "Update rentals failed!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Return_car.this, "Update status rentals failed!!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void insertIntoCarsReturned(long rentNumber) {
-        // Obtener la fecha actual en el formato deseado
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDate = dateFormat.format(new Date());
+
+        String returnDate = setFechaActual();
 
         long numberRent = System.currentTimeMillis();
 
@@ -142,7 +196,7 @@ public class Return_car extends AppCompatActivity {
         Map<String, Object> carReturnedData = new HashMap<>();
         carReturnedData.put("returnNumber", numberRent);
         carReturnedData.put("numberRent", rentNumber);
-        carReturnedData.put("returnDate", currentDate);
+        carReturnedData.put("returnDate", returnDate);
 
         // Insertar el nuevo registro en la colección "CarsReturned"
         db.collection("CarsReturned")
@@ -150,7 +204,7 @@ public class Return_car extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(Return_car.this, "Car return record added successfully!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Return_car.this, "Car return record added successfully!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -171,4 +225,5 @@ public class Return_car extends AppCompatActivity {
         // Notifica al adaptador que los datos han cambiado
         adapter.notifyDataSetChanged();
     }
+
 }

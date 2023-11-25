@@ -84,10 +84,12 @@ private void ChangePassword(String userName, String keyWord, String newPassword)
         db.collection("Users").document(userId)
                 .update("Password", newPassword)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Contraseña actualizada!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Password updated!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(Remember_Password.this, "Password changed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Remember_Password.this, "Error to update password!", Toast.LENGTH_SHORT).show();
                 });
     }
 

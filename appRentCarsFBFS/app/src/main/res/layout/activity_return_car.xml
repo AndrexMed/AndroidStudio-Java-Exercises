@@ -34,33 +34,18 @@
             android:fontFamily="@font/montserratblack"
             android:background="@drawable/edt_style" />
 
-        <EditText
-            android:id="@+id/editTextText5"
+        <TextView
+            android:id="@+id/tvFechaSistema"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
             android:inputType="text"
             android:background="@drawable/edt_style"
-            android:gravity="center"
             android:textColorHint="@color/black"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:fontFamily="@font/montserratblack"
-            android:hint="Number plate" />
-
-        <EditText
-            android:id="@+id/editTextText6"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
             android:gravity="center"
-            android:background="@drawable/edt_style"
-            android:textColorHint="@color/black"
-            android:fontFamily="@font/montserratblack"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:text="Return Date" />
+            android:fontFamily="@font/montserratblack"/>
 
         <TextView
             android:id="@+id/tvNumberRent"
