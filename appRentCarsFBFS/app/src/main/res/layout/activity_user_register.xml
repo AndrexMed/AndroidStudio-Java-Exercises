@@ -36,24 +36,24 @@
 
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/etUserName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/edt_style_register"
             android:drawableLeft="@drawable/baseline_person_24"
             android:ems="10"
-            android:hint="   User"
+            android:hint="   User name"
             android:inputType="text"
             android:textColorHint="@color/black"
             android:fontFamily="@font/montserratblack"/>
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/etSecretWord"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
             android:inputType="text"
-            android:hint="   Name"
+            android:hint="   Keyword"
             android:textColorHint="@color/black"
             android:fontFamily="@font/montserratblack"
             android:textColor="@color/black"
@@ -61,12 +61,12 @@
             android:background="@drawable/edt_style_register2"/>
 
         <EditText
-            android:id="@+id/editTextText4"
+            android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
-            android:inputType="text"
-            android:hint="   Keyword"
+            android:inputType="textPassword"
+            android:hint="   Password"
             android:textColorHint="@color/black"
             android:fontFamily="@font/montserratblack"
             android:background="@drawable/edt_style_register3"

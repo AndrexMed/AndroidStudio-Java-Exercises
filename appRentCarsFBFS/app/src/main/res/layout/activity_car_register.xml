@@ -54,19 +54,6 @@
 
 
             <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:background="@drawable/edt_style"
-                android:textColorHint="@color/black"
-                android:fontFamily="@font/montserratblack"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="Car Name" />
-
-            <EditText
                 android:id="@+id/etValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,10 +64,10 @@
                 android:fontFamily="@font/montserratblack"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="Value per daily" />
+                android:hint="Value per daily" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/btnState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Avaliable / Disable"

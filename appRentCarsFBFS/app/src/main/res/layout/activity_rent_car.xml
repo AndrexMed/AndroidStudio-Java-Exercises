@@ -41,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:fontFamily="@font/montserratblack"
-            android:text="cuando selecione la placa que se muestre la marca + el nombre" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tvValueDay"
@@ -50,7 +50,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:fontFamily="@font/montserratblack"
-            android:text="cuando selecione la placa que se muestre el valor del dia" />
+            android:text="" />
 
         <TextView
             android:id="@+id/txtFechaHoraActual"
@@ -104,7 +104,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserratblack"
             android:gravity="center"
-            android:text="aqui se mostrara el numero de la renta cuando lo alquile" />
+            android:text="" />
 
     </LinearLayout>
 
